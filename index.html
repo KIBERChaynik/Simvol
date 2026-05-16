@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кофейня Символ — Калининград</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #faf7f2;
+            --bg-secondary: #f3ede4;
+            --bg-dark: #1a1410;
+            --text-primary: #2c1e12;
+            --text-secondary: #6b5a48;
+            --text-light: #a89580;
+            --accent: #c4956a;
+            --accent-dark: #a07850;
+            --accent-light: #e8d5be;
+            --white: #ffffff;
+            --card-shadow: 0 4px 30px rgba(44, 30, 18, 0.08);
+            --card-hover-shadow: 0 12px 40px rgba(44, 30, 18, 0.15);
+            --nav-height: 72px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Scroll margin for anchor targets */
+        section[id] {
+            scroll-margin-top: var(--nav-height);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        .nav.scrolled {
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 20px rgba(44, 30, 18, 0.08);
+            padding: 0.7rem 2rem;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav.scrolled .nav-logo {
+            color: var(--text-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav.scrolled .nav-links a {
+            color: var(--text-secondary);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .nav-burger span {
+            width: 25px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s;
+        }
+
+        .nav.scrolled .nav-burger span {
+            background: var(--text-primary);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/15810844e-a2ed-4419-84ba-5418eefb06c4.png') center/cover no-repeat;
+            transform: scale(1.05);
+            animation: heroZoom 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes heroZoom {
+            0% { transform: scale(1.05); }
+            100% { transform: scale(1.12); }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(26, 20, 16, 0.4) 0%,
+                rgba(26, 20, 16, 0.6) 50%,
+                rgba(26, 20, 16, 0.8) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            color: var(--white);
+            padding: 2rem;
+            animation: fadeUp 1.2s ease-out;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.08);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            font-weight: 300;
+            opacity: 0.85;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-cta:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(196, 149, 106, 0.4);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .hero-scroll svg {
+            width: 30px;
+            height: 30px;
+            stroke: rgba(255,255,255,0.5);
+        }
+
+        /* Sections */
+        .section {
+            padding: 6rem 2rem;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* Info Section */
+        .info-section {
+            background: var(--bg-dark);
+            color: var(--white);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .info-card {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            border-radius: 16px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateY(-4px);
+        }
+
+        .info-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 1.25rem;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--white);
+        }
+
+        .info-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-card p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .info-card a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .info-card a:hover {
+            color: var(--accent-light);
+        }
+
+        .status-open {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #6fcf7b;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #6fcf7b;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Schedule */
+        .schedule-section {
+            background: var(--bg-secondary);
+        }
+
+        .schedule-table {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .schedule-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            transition: background 0.2s;
+        }
+
+        .schedule-row:not(:last-child) {
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .schedule-row:hover {
+            background: var(--bg-primary);
+        }
+
+        .schedule-row.today {
+            background: var(--accent-light);
+            font-weight: 600;
+        }
+
+        .schedule-day {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .schedule-time {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .today-badge {
+            display: inline-block;
+            padding: 0.15rem 0.6rem;
+            background: var(--accent);
+            color: var(--white);
+            font-size: 0.65rem;
+            border-radius: 50px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background: var(--bg-primary);
+        }
+
+        .menu-categories {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .menu-cat-btn {
+            padding: 0.6rem 1.5rem;
+            border: 1px solid var(--accent-light);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .menu-cat-btn.active,
+        .menu-cat-btn:hover {
+            background: var(--accent);
+            color: var(--white);
+            border-color: var(--accent);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .menu-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-card.hidden {
+            display: none;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .menu-card-img {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .menu-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .menu-card:hover .menu-card-img img {
+            transform: scale(1.08);
+        }
+
+        .menu-card-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--accent-dark);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .menu-card-body {
+            padding: 1.5rem;
+        }
+
+        .menu-card-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .menu-card-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .menu-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-card-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-dark);
+        }
+
+        .menu-card-size {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            background: var(--bg-secondary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+        }
+
+        /* Gallery */
+        .gallery-section {
+            background: var(--bg-secondary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(26,20,16,0.6) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .footer-desc {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            max-width: 350px;
+        }
+
+        .footer h4 {
+            color: var(--white);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: var(--bg-dark);
+                flex-direction: column;
+                padding: 5rem 2rem 2rem;
+                gap: 1.5rem;
+                transition: right 0.4s ease;
+            }
+
+            .nav-links.open {
+                right: 0;
+            }
+
+            .nav-links a {
+                color: var(--white) !important;
+                font-size: 1.1rem;
+            }
+
+            .nav-burger {
+                display: flex;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section {
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        /* Mobile overlay */
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .nav-overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">Символ</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about" onclick="closeMenu()">О нас</a></li>
+                <li><a href="#schedule" onclick="closeMenu()">Расписание</a></li>
+                <li><a href="#menu" onclick="closeMenu()">Меню</a></li>
+                <li><a href="#gallery" onclick="closeMenu()">Галерея</a></li>
+                <li><a href="#contacts" onclick="closeMenu()">Контакты</a></li>
+            </ul>
+            <div class="nav-burger" id="burger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+    <div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Кофейня в Калининграде</div>
+            <h1 class="hero-title">Символ</h1>
+            <p class="hero-subtitle">Место, где кофе становится искусством, а каждый визит — особым событием</p>
+            <a href="#menu" class="hero-cta">
+                <span>Смотреть меню</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+        <div class="hero-scroll">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="section info-section" id="about">
+        <div class="section-container">
+            <div class="section-header">
+                <div class="section-label" style="color: var(--accent);">Добро пожаловать</div>
+                <h2 class="section-title" style="color: var(--white);">О нашей кофейне</h2>
+                <p class="section-desc" style="color: rgba(255,255,255,0.6);">Уютное пространство в сердце Калининграда, где вы найдёте идеальный кофе и вкусные десерты</p>
+            </div>
+            <div class="info-grid">
+                <div class="info-card reveal">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <h3>Адрес</h3>
+                    <p>Ленинский просп., 18Б<br>Калининград</p>
+                </div>
+                <div class="info-card reveal">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    </div>
+                    <h3>Контакты</h3>
+                    <p><a href="tel:+79097999961">+7 (909) 799-99-61</a></p>
+                </div>
+                <div class="info-card reveal">
+                    <div class="info-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <h3>Время работы</h3>
+                    <p>Ежедневно 08:00–21:00</p>
+                    <div class="status-open" id="statusBadge">
+                        <span class="status-dot"></span>
+                        <span id="statusText">Открыто</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule -->
+    <section class="section schedule-section" id="schedule">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <div class="section-label">График</div>
+                <h2 class="section-title">Расписание работы</h2>
+                <p class="section-desc">Мы работаем каждый день, чтобы вы могли насладиться любимым кофе</p>
+            </div>
+            <div class="schedule-table reveal" id="scheduleTable">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu -->
+    <section class="section menu-section" id="menu">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <div class="section-label">Наше меню</div>
+                <h2 class="section-title">Вкус и аромат</h2>
+                <p class="section-desc">Опытные бариста, быстрое приготовление и только свежие ингредиенты</p>
+            </div>
+
+            <div class="menu-categories reveal">
+                <button class="menu-cat-btn active" data-cat="all">Все</button>
+                <button class="menu-cat-btn" data-cat="coffee">Кофе</button>
+                <button class="menu-cat-btn" data-cat="dessert">Десерты</button>
+                <button class="menu-cat-btn" data-cat="food">Еда</button>
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+                <!-- Cards generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="section gallery-section" id="gallery">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <div class="section-label">Галерея</div>
+                <h2 class="section-title">Атмосфера</h2>
+                <p class="section-desc">Загляните к нам и почувствуйте уют нашей кофейни</p>
+            </div>
+            <div class="gallery-grid reveal">
+                <div class="gallery-item">
+                    <img src="https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/15810844e-a2ed-4419-84ba-5418eefb06c4.png" alt="Интерьер кофейни Символ">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/1633014ba-b788-4ab8-81b8-1f950fc2a93c.png" alt="Латте арт">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/1a52197af-4fff-41fd-b7f8-94fa47334c2d.png" alt="Бельгийские вафли">
+                    <div class="gallery-item-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="contacts">
+        <div class="footer-inner">
+            <div>
+                <div class="footer-brand">Символ</div>
+                <p class="footer-desc">Кофейня в Калининграде, где каждый глоток кофе — это маленькое путешествие. Мы варим кофе с любовью и готовим десерты из свежих ингредиентов.</p>
+            </div>
+            <div>
+                <h4>Навигация</h4>
+                <ul class="footer-links">
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#schedule">Расписание</a></li>
+                    <li><a href="#menu">Меню</a></li>
+                    <li><a href="#gallery">Галерея</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Контакты</h4>
+                <ul class="footer-links">
+                    <li><a href="tel:+79097999961">+7 (909) 799-99-61</a></li>
+                    <li><a href="#">Ленинский просп., 18Б</a></li>
+                    <li><a href="#">Калининград</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Кофейня «Символ». Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll to sections
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    const navHeight = document.querySelector('.nav').offsetHeight;
+                    const targetPos = targetEl.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                    window.scrollTo({
+                        top: targetPos,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Menu data
+        const menuItems = [
+            {
+                name: 'Латте',
+                desc: 'Латте — легкий кофейно-сливочный вкус. Самый большой и самый молочный кофейный напиток на основе эспрессо. Подойдет для тех, кто не любит яркий вкус кофе.',
+                price: '230 ₽',
+                size: '300 мл',
+                cat: 'coffee',
+                img: 'https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/1633014ba-b788-4ab8-81b8-1f950fc2a93c.png'
+            },
+            {
+                name: 'Капучино',
+                desc: 'Капучино — идеальный баланс вкуса и молока.',
+                price: '210 ₽',
+                size: '200 мл',
+                cat: 'coffee',
+                img: 'https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/1bc2f461a-f4ec-47f3-a754-60ccf200a98d.png'
+            },
+            {
+                name: 'Флет уайт',
+                desc: 'Флет уайт — самый насыщенный по вкусу молочный напиток на основе эспрессо.',
+                price: '220 ₽',
+                size: '180 мл',
+                cat: 'coffee',
+                img: 'https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/1bc2f461a-f4ec-47f3-a754-60ccf200a98d.png'
+            },
+            {
+                name: 'Пуровер (V60)',
+                desc: 'Пуровер — это альтернативный способ заваривания кофе, в котором используется специальная воронка. Хорошо помогает раскрывать цветочные, ягодные и фруктовые ароматы.',
+                price: '250 ₽',
+                size: '250 мл',
+                cat: 'coffee',
+                img: 'https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/19464fcd5-6f89-45ca-bca6-c0893265a247.png'
+            },
+            {
+                name: 'Холодный латте',
+                desc: 'Холодный латте — освежающий кофейный напиток со льдом.',
+                price: '300 ₽',
+                size: '350 мл',
+                cat: 'coffee',
+                img: 'https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/1cd68b9f7-0aa0-462f-a071-ab3d37be3799.png'
+            },
+            {
+                name: 'Бельгийские вафли',
+                desc: 'Бельгийские вафли «Яблочный штрудель» подаются со сливочным пломбиром, карамелизированным яблоком, корицей, грецкими орехами и карамельным соусом.',
+                price: '455 ₽',
+                size: '320 г',
+                cat: 'dessert',
+                img: 'https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/1a52197af-4fff-41fd-b7f8-94fa47334c2d.png'
+            },
+            {
+                name: 'Шоколадные вафли «Вишня в шоколаде»',
+                desc: 'Шоколадные вафли с пломбиром, карамелизированной вишней, лепестками миндаля и шоколадным соусом.',
+                price: '525 ₽',
+                size: '330 г',
+                cat: 'dessert',
+                img: 'https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/185f5b853-86ea-43c4-9e6e-2e96f606b7d6.png'
+            },
+            {
+                name: 'Сырники',
+                desc: 'Сырники из свежего творога. Вкусные добавки. Свежий кофе.',
+                price: '425 ₽',
+                size: '240 г',
+                cat: 'dessert',
+                img: 'https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/1013aa789-ba83-43af-b94d-0183060e05f6.png'
+            },
+            {
+                name: 'Сэндвичи',
+                desc: 'Сэндвичи с разными вкусами. К ароматному кофе. Доступные цены.',
+                price: '340 ₽',
+                size: '200 г',
+                cat: 'food',
+                img: 'https://image.qwenlm.ai/public_source/8696d893-577d-48d7-b83f-c857bb7f2928/1d9589f44-e812-4e61-ae41-d96143ed7c25.png'
+            }
+        ];
+
+        // Render menu
+        function renderMenu(filter = 'all') {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = '';
+            let delay = 0;
+            menuItems.forEach((item) => {
+                if (filter !== 'all' && item.cat !== filter) return;
+                const card = document.createElement('div');
+                card.className = 'menu-card';
+                const catLabels = { coffee: 'Кофе', dessert: 'Десерт', food: 'Еда' };
+                card.innerHTML = `
+                    <div class="menu-card-img">
+                        <img src="${item.img}" alt="${item.name}" loading="lazy">
+                        <div class="menu-card-badge">${catLabels[item.cat]}</div>
+                    </div>
+                    <div class="menu-card-body">
+                        <h3 class="menu-card-name">${item.name}</h3>
+                        <p class="menu-card-desc">${item.desc}</p>
+                        <div class="menu-card-footer">
+                            <span class="menu-card-price">${item.price}</span>
+                            <span class="menu-card-size">${item.size}</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+                // Animate in
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, delay);
+                delay += 80;
+            });
+        }
+
+        // Category buttons
+        document.querySelectorAll('.menu-cat-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.menu-cat-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderMenu(btn.dataset.cat);
+            });
+        });
+
+        renderMenu();
+
+        // Schedule
+        const days = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
+        const now = new Date();
+        const todayIdx = now.getDay();
+        const todayName = days[todayIdx];
+
+        const scheduleTable = document.getElementById('scheduleTable');
+        const orderedDays = [1, 2, 3, 4, 5, 6, 0];
+        orderedDays.forEach(d => {
+            const row = document.createElement('div');
+            row.className = 'schedule-row' + (d === todayIdx ? ' today' : '');
+            const dayName = days[d];
+            row.innerHTML = `
+                <span class="schedule-day">${dayName}${d === todayIdx ? '<span class="today-badge">Сегодня</span>' : ''}</span>
+                <span class="schedule-time">08:00–21:00</span>
+            `;
+            scheduleTable.appendChild(row);
+        });
+
+        // Status badge
+        const hours = now.getHours();
+        const statusText = document.getElementById('statusText');
+        const statusBadge = document.getElementById('statusBadge');
+        if (hours >= 8 && hours < 21) {
+            statusText.textContent = 'Открыто до 21:00';
+        } else {
+            statusText.textContent = 'Закрыто';
+            statusBadge.querySelector('.status-dot').style.background = '#cf6f6f';
+            statusBadge.style.color = '#cf6f6f';
+        }
+
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 80) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+            document.getElementById('navOverlay').classList.toggle('active');
+        }
+
+        function closeMenu() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navOverlay').classList.remove('active');
+        }
+
+        // Scroll reveal
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>
+
